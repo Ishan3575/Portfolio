@@ -1,0 +1,1057 @@
+/* ==========================================================================
+   OSAMU DAZAI • COSMIC PORTFOLIO STYLESHEET
+   Dark Ethereal Glassmorphism • Cyber-Cosmos Aesthetic • Dynamic Transitions
+   ========================================================================== */
+
+:root {
+  --bg-dark: #04060c;
+  --bg-card: rgba(12, 16, 28, 0.65);
+  --bg-card-hover: rgba(17, 24, 39, 0.85);
+  --border-glass: rgba(255, 255, 255, 0.12);
+  --border-neon-cyan: rgba(56, 189, 248, 0.6);
+  --border-neon-indigo: rgba(129, 140, 248, 0.6);
+  
+  --accent-cyan: #38bdf8;
+  --accent-indigo: #818cf8;
+  --accent-purple: #c084fc;
+  --accent-amber: #f59e0b;
+  --accent-rose: #f43f5e;
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  --font-serif: 'Cinzel', 'Noto Serif JP', Georgia, serif;
+  --font-sans: 'Space Grotesk', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  --shadow-glow: 0 0 35px rgba(56, 189, 248, 0.25);
+  --shadow-popout: 0 30px 70px -10px rgba(0, 0, 0, 0.8), 0 0 40px rgba(56, 189, 248, 0.35);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   Canvas 3D Cosmos Background (Fixed Fullscreen)
+   -------------------------------------------------------------------------- */
+#cosmos-canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Cosmic Gradient Vignette */
+.cosmos-overlay-vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(4, 6, 12, 0.15) 0%, rgba(4, 6, 12, 0.75) 75%, rgba(4, 6, 12, 0.95) 100%);
+}
+
+/* --------------------------------------------------------------------------
+   Main Layout & Container
+   -------------------------------------------------------------------------- */
+.app-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 1.5rem 6rem;
+}
+
+/* --------------------------------------------------------------------------
+   Top Navigation & Controls
+   -------------------------------------------------------------------------- */
+.top-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 0;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.brand-crest {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.crest-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 900;
+  font-family: var(--font-serif);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+}
+
+.brand-info h1 {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.brand-info span {
+  font-size: 0.75rem;
+  color: var(--accent-cyan);
+  letter-spacing: 1.5px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cosmic-mode-pill-group {
+  display: flex;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border-glass);
+  padding: 0.25rem;
+  border-radius: 30px;
+  backdrop-filter: blur(12px);
+}
+
+.cosmic-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.cosmic-btn:hover {
+  color: #fff;
+}
+
+.cosmic-btn.active {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+  color: #04060c;
+  font-weight: 700;
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.5);
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 24px;
+  border: 1px solid var(--border-glass);
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  color: var(--text-main);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.action-btn:hover {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
+  transform: translateY(-2px);
+}
+
+.ability-btn {
+  border-color: var(--accent-cyan);
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2));
+  color: var(--accent-cyan);
+}
+
+.ability-btn:hover {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+  color: #04060c;
+}
+
+/* --------------------------------------------------------------------------
+   Hero Grid: Left Aesthetic Box & Right Detailed Overview
+   -------------------------------------------------------------------------- */
+.hero-cosmos-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 2.5rem;
+  margin-top: 1.5rem;
+  align-items: start;
+  position: relative;
+}
+
+/* --------------------------------------------------------------------------
+   THE POP-OUT PROFILE CARD (Left Side)
+   Default: Compact & Aesthetic. On Hover: Pops out 1.5X, triggers cosmic zoom!
+   -------------------------------------------------------------------------- */
+.profile-card-wrapper {
+  position: sticky;
+  top: 2rem;
+  z-index: 30;
+  width: 360px;
+  height: 520px;
+  perspective: 1000px;
+  transition: z-index 0.3s;
+}
+
+.profile-card-wrapper:hover {
+  z-index: 100;
+}
+
+.profile-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: 24px;
+  padding: 1.75rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  transform-origin: top left;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.45s ease,
+              border-color 0.45s ease,
+              background-color 0.45s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* THE 1.5X HOVER POPOUT EFFECT */
+.profile-card:hover {
+  transform: scale(1.48) translateY(-6px);
+  z-index: 100;
+  background: var(--bg-card-hover);
+  border-color: var(--border-neon-cyan);
+  box-shadow: var(--shadow-popout);
+}
+
+.profile-header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.avatar-container {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  margin-bottom: 1rem;
+}
+
+.avatar-halo-ring {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo), var(--accent-purple));
+  opacity: 0.6;
+  filter: blur(6px);
+  animation: haloPulse 4s ease-in-out infinite alternate;
+}
+
+.profile-avatar-img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+  background: #090d16;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  padding: 0.25rem 0.65rem;
+  border-radius: 12px;
+  margin-bottom: 0.5rem;
+}
+
+.status-badge .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #34d399;
+  box-shadow: 0 0 8px #34d399;
+  animation: blink 2s infinite;
+}
+
+.profile-name {
+  font-family: var(--font-serif);
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.profile-name .kanji {
+  font-size: 1rem;
+  color: var(--accent-cyan);
+  font-weight: normal;
+  opacity: 0.85;
+}
+
+.profile-title {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+/* Info Grid Inside Profile Box */
+.profile-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border-glass);
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+
+.meta-value {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #fff;
+  margin-top: 0.2rem;
+}
+
+.meta-value.highlight-cyan {
+  color: var(--accent-cyan);
+}
+
+.meta-value.highlight-rose {
+  color: var(--accent-rose);
+}
+
+/* Ability Special Display */
+.ability-box {
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px dashed rgba(56, 189, 248, 0.35);
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.ability-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+
+.ability-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+}
+
+.ability-name {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.ability-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.card-hint {
+  text-align: center;
+  font-size: 0.68rem;
+  color: var(--accent-cyan);
+  margin-top: 0.9rem;
+  opacity: 0.7;
+  letter-spacing: 0.5px;
+  transition: opacity 0.3s;
+}
+
+.profile-card:hover .card-hint {
+  opacity: 1;
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   Right Side Content: Bio, Dynamic Hobbies, Hologram Previews
+   -------------------------------------------------------------------------- */
+.profile-main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Bio Section */
+.bio-glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  letter-spacing: 1.5px;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.bio-paragraph {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+
+.bio-paragraph strong {
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   INTERACTIVE HOBBIES & INTERESTS (With Dynamic Pop-up Previews)
+   -------------------------------------------------------------------------- */
+.hobbies-section-wrapper {
+  position: relative;
+}
+
+.hobbies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.hobby-card {
+  position: relative;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--border-glass);
+  border-radius: 16px;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.hobby-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.hobby-card:hover {
+  transform: translateY(-6px);
+  background: rgba(30, 41, 59, 0.85);
+  border-color: var(--border-neon-cyan);
+  box-shadow: 0 12px 30px rgba(56, 189, 248, 0.25);
+}
+
+.hobby-card:hover::before {
+  opacity: 1;
+}
+
+.hobby-icon {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.hobby-title {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.3rem;
+}
+
+.hobby-subtitle {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.hobby-tag-indicator {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+}
+
+/* --------------------------------------------------------------------------
+   DYNAMIC FLOATING HOLOGRAPHIC PREVIEW MODAL
+   Appears when hovering over Novel Reading or Anime
+   -------------------------------------------------------------------------- */
+.hologram-preview-dock {
+  position: absolute;
+  top: calc(100% + 1rem);
+  left: 0;
+  right: 0;
+  z-index: 80;
+  background: rgba(8, 12, 22, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-neon-cyan);
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.25);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.hologram-preview-dock.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.preview-dock-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.preview-dock-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: #fff;
+}
+
+.preview-dock-sub {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+}
+
+.preview-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+}
+
+.preview-art-card {
+  position: relative;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--border-glass);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.preview-art-card:hover {
+  transform: translateY(-5px) scale(1.03);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3);
+}
+
+.preview-art-img-wrap {
+  width: 100%;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: #020617;
+  position: relative;
+}
+
+.preview-art-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.preview-art-card:hover .preview-art-img-wrap img {
+  transform: scale(1.08);
+}
+
+.preview-art-details {
+  padding: 0.75rem;
+}
+
+.preview-art-title {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.preview-art-meta {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+/* --------------------------------------------------------------------------
+   Education & Strategic Background Grid
+   -------------------------------------------------------------------------- */
+.education-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.edu-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border-glass);
+  border-radius: 18px;
+  padding: 1.5rem;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.edu-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-indigo);
+}
+
+.edu-period {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent-indigo);
+  margin-bottom: 0.4rem;
+}
+
+.edu-title {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.3rem;
+}
+
+.edu-institution {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  margin-bottom: 0.75rem;
+}
+
+.edu-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   LOWER SECTIONS: Experience & Past Projects
+   -------------------------------------------------------------------------- */
+.section-spacer {
+  margin-top: 4.5rem;
+}
+
+.section-header-block {
+  margin-bottom: 2.25rem;
+}
+
+/* Experience Timeline */
+.timeline-container {
+  position: relative;
+  padding-left: 2.5rem;
+}
+
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 11px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent-cyan), var(--accent-indigo), transparent);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2.5rem;
+}
+
+.timeline-node {
+  position: absolute;
+  top: 6px;
+  left: -2.5rem;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #090d16;
+  border: 2px solid var(--accent-cyan);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+}
+
+.timeline-node-inner {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+}
+
+.timeline-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  padding: 1.75rem;
+  transition: all 0.3s ease;
+}
+
+.timeline-card:hover {
+  transform: translateX(6px);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.timeline-role-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-role {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.timeline-badge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 12px;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: var(--accent-cyan);
+}
+
+.timeline-org {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-indigo);
+  margin-bottom: 0.75rem;
+}
+
+.timeline-body {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.timeline-highlights {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pill-tag {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-glass);
+  padding: 0.25rem 0.65rem;
+  border-radius: 8px;
+  color: var(--text-muted);
+}
+
+/* Past Projects / Incident Case Files Grid */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.75rem;
+}
+
+.project-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--border-neon-cyan);
+  box-shadow: 0 15px 40px rgba(56, 189, 248, 0.2);
+}
+
+.project-code {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent-cyan);
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+}
+
+.project-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.75rem;
+}
+
+.project-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 1.25rem;
+}
+
+.project-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-glass);
+  padding-top: 1rem;
+}
+
+.case-status {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: #34d399;
+}
+
+/* --------------------------------------------------------------------------
+   Tactical Attributes & Stats Radar / Bars
+   -------------------------------------------------------------------------- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.stat-item {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border-glass);
+  border-radius: 14px;
+  padding: 1.2rem;
+}
+
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.stat-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.stat-pct {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent-cyan);
+}
+
+.stat-bar-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-indigo));
+  border-radius: 3px;
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   Special Ability Pulse Animation Overlay
+   -------------------------------------------------------------------------- */
+.ability-nullification-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.45) 0%, rgba(129, 140, 248, 0.25) 50%, transparent 80%);
+  animation: flashFade 1.1s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+@keyframes flashFade {
+  0% { opacity: 0; transform: scale(0.85); }
+  35% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+
+@keyframes haloPulse {
+  0% { transform: scale(0.96); opacity: 0.4; }
+  100% { transform: scale(1.04); opacity: 0.8; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Media Queries
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .hero-cosmos-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .profile-card-wrapper {
+    position: relative;
+    top: 0;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    height: auto;
+  }
+
+  .profile-card {
+    position: relative;
+  }
+
+  .profile-card:hover {
+    transform: scale(1.15) translateY(-5px);
+  }
+
+  .preview-grid-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .top-navbar {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .nav-actions {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .preview-grid-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-card:hover {
+    transform: scale(1.05);
+  }
+}

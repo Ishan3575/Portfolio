@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Osamu Dazai • Cosmic Portfolio</title>
+  
+  <!-- Google Fonts for High Aesthetic Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Three.js (r128) & GSAP (Local offline vendor scripts with CDN fallback) -->
+  <script src="vendor-three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\\/script>');
+    }
+  </script>
+  <script src="vendor-gsap.min.js"></script>
+  <script>
+    if (typeof gsap === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"><\\/script>');
+    }
+  </script>
+</head>
+<body>
+
+  <!-- ======================================================================
+       LIVE 3D COSMOS ENGINE (Spinning Galaxies, Supernovas & Black Holes)
+       ====================================================================== -->
+  <div id="cosmos-canvas-container"></div>
+  <div class="cosmos-overlay-vignette"></div>
+
+  <!-- ======================================================================
+       MAIN APPLICATION WRAPPER
+       ====================================================================== -->
+  <div class="app-wrapper">
+
+    <!-- Top Navigation Bar -->
+    <header class="top-navbar">
+      <div class="brand-crest">
+        <div class="crest-icon">太</div>
+        <div class="brand-info">
+          <h1>Osamu Dazai</h1>
+          <span>ARMED DETECTIVE AGENCY • 武装探偵社</span>
+        </div>
+      </div>
+
+      <!-- Cosmic Phenomenon Selector -->
+      <div class="nav-actions">
+        <div class="cosmic-mode-pill-group" title="Select Universe Background Mode">
+          <button class="cosmic-btn active" data-cosmic-mode="galaxy">🌌 Spiral Galaxy</button>
+          <button class="cosmic-btn" data-cosmic-mode="blackhole">🕳️ Black Hole</button>
+          <button class="cosmic-btn" data-cosmic-mode="supernova">💥 Supernova</button>
+          <button class="cosmic-btn" data-cosmic-mode="nebula">✨ Nebula</button>
+        </div>
+
+        <!-- Ambient Sound Synthesizer Toggle -->
+        <button id="toggle-audio-btn" class="action-btn" title="Toggle Cosmic Ambient Synthesizer">
+          🔇 Cosmos Ambient: OFF
+        </button>
+
+        <!-- Ability Nullification Trigger -->
+        <button class="action-btn ability-btn trigger-ability" title="Activate Ability: No Longer Human">
+          ⚡ No Longer Human
+        </button>
+      </div>
+    </header>
+
+    <!-- ====================================================================
+         HERO SECTION: Left Aesthetic Profile Box & Right Comprehensive Details
+         ==================================================================== -->
+    <main class="hero-cosmos-grid">
+
+      <!-- ------------------------------------------------------------------
+           LEFT SIDE: The Aesthetic Pop-Out Profile Box
+           Default: Sleek & Compact. On Hover: Pops out 1.5X + Zooms into Galaxy!
+           ------------------------------------------------------------------ -->
+      <aside class="profile-card-wrapper">
+        <div class="profile-card" id="main-profile-card">
+          
+          <div class="profile-header">
+            <!-- Glowing Avatar -->
+            <div class="avatar-container">
+              <div class="avatar-halo-ring"></div>
+              <img src="assets/dazai-pfp.svg" alt="Osamu Dazai Profile Art" class="profile-avatar-img">
+            </div>
+
+            <!-- Status Indicator -->
+            <div class="status-badge">
+              <span class="dot"></span>
+              <span>Active Detective • Seeking Double Suicide</span>
+            </div>
+
+            <!-- Name & Kanji -->
+            <h2 class="profile-name">
+              Osamu Dazai
+              <span class="kanji">太宰 治</span>
+            </h2>
+            <div class="profile-title">Senior Strategist &amp; Special Investigator</div>
+          </div>
+
+          <!-- Metadata Grid: Age, Affiliation, Ability, Origin -->
+          <div class="profile-meta-grid">
+            <div class="meta-item">
+              <span class="meta-label">Age</span>
+              <span class="meta-value highlight-cyan">22 Years</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Birthday</span>
+              <span class="meta-value">June 19</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Affiliation</span>
+              <span class="meta-value">Armed Detective Agency</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Past Rank</span>
+              <span class="meta-value highlight-rose">Port Mafia Executive</span>
+            </div>
+          </div>
+
+          <!-- Special Ability Box -->
+          <div class="ability-box">
+            <div class="ability-header">
+              <span class="ability-tag">Special Ability</span>
+              <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent-cyan);">人間失格</span>
+            </div>
+            <div class="ability-name">No Longer Human</div>
+            <p class="ability-desc">
+              All-nullifying ability that completely invalidates any other supernatural power upon physical skin contact.
+            </p>
+          </div>
+
+          <div class="card-hint">
+            ✦ Hover to expand 1.5× &amp; warp into cosmic core ✦
+          </div>
+        </div>
+      </aside>
+
+      <!-- ------------------------------------------------------------------
+           RIGHT SIDE: Detailed Narrative, Interactive Hobbies & Education
+           ------------------------------------------------------------------ -->
+      <section class="profile-main-content">
+
+        <!-- Narrative Glass Panel -->
+        <article class="bio-glass-panel">
+          <div class="section-label">
+            <span>// PROFILE OVERVIEW &amp; PHILOSOPHY</span>
+          </div>
+          <h2 class="section-title">The Enigmatic Mind of Yokohama</h2>
+          <p class="bio-paragraph">
+            Armed with sharp tactical intellect, unwavering composure, and an eccentric obsession with finding a partner for a graceful double suicide, I serve as a senior investigator at the <strong>Armed Detective Agency</strong>. Having once stood as the youngest executive in <strong>Port Mafia</strong> history, I now navigate both the daylight of Yokohama and the shadows beneath it to protect the vulnerable.
+          </p>
+          <p class="bio-paragraph">
+            <em>"Justice is a weapon. It can be used to cause harm, but it cannot protect or save others."</em> — My life moves to the rhythms of classic literature, high-stakes mind games, and an eternal search for something worth living for.
+          </p>
+        </article>
+
+        <!-- ----------------------------------------------------------------
+             INTERACTIVE HOBBIES WITH DYNAMIC PREVIEWS & COSMIC TRANSITIONS
+             Hovering over 'Novel Reading' shows transparent famous novels.
+             Hovering over 'Anime' shows Dazai fanarts & scenes.
+             ---------------------------------------------------------------- -->
+        <div class="hobbies-section-wrapper">
+          <div class="section-label">
+            <span>// INTERACTIVE PURSUITS &amp; HOBBIES</span>
+          </div>
+
+          <div class="hobbies-grid">
+
+            <!-- 1. Novel Reading (Triggers Famous Literature Preview) -->
+            <div class="hobby-card" data-hobby-type="novel" title="Hover to view famous literature collection">
+              <div class="hobby-icon">📖</div>
+              <h3 class="hobby-title">Novel Reading</h3>
+              <p class="hobby-subtitle">
+                Devouring literary masterpieces: *No Longer Human*, *The Setting Sun*, Akutagawa, Dostoevsky.
+              </p>
+              <span class="hobby-tag-indicator">⚡ Hover for Classic Novels →</span>
+            </div>
+
+            <!-- 2. Anime & Manga (Triggers Dazai Fanart & Scenes) -->
+            <div class="hobby-card" data-hobby-type="anime" title="Hover to view Dazai fanart and anime moments">
+              <div class="hobby-icon">🎭</div>
+              <h3 class="hobby-title">Anime &amp; Dazai Fanart</h3>
+              <p class="hobby-subtitle">
+                Bungo Stray Dogs chronicles, ability awakening, Dark Era memories at Bar Lupin.
+              </p>
+              <span class="hobby-tag-indicator">⚡ Hover for Fanarts &amp; Scenes →</span>
+            </div>
+
+            <!-- 3. Double Suicide Philosophy -->
+            <div class="hobby-card" data-hobby-type="suicide" title="Hover to warp into the Black Hole">
+              <div class="hobby-icon">🌊</div>
+              <h3 class="hobby-title">Suicide Philosophy</h3>
+              <p class="hobby-subtitle">
+                Studying *The Complete Guide to Suicide* and seeking an unburdensome, poetic departure with a beautiful lady.
+              </p>
+              <span class="hobby-tag-indicator">⚡ Warps to Black Hole →</span>
+            </div>
+
+            <!-- 4. Strategic Chess & Deduction -->
+            <div class="hobby-card" data-hobby-type="chess" title="Hover to warp into the Stellar Nebula">
+              <div class="hobby-icon">♟️</div>
+              <h3 class="hobby-title">Tactical Chess</h3>
+              <p class="hobby-subtitle">
+                Orchestrating fifty moves ahead against opponents like Fyodor Dostoevsky and Francis Scott Key Fitzgerald.
+              </p>
+              <span class="hobby-tag-indicator">⚡ Warps to Nebula →</span>
+            </div>
+
+          </div>
+
+          <!-- Dynamic Floating Holographic Preview Dock -->
+          <div class="hologram-preview-dock" id="hologram-preview-dock">
+            <div class="preview-dock-header">
+              <div class="preview-dock-title" id="preview-dock-title-text">
+                📚 Famous Literature &amp; Influences
+              </div>
+              <div class="preview-dock-sub" id="preview-dock-sub-text">
+                HOVERING ARCHIVE
+              </div>
+            </div>
+            <div class="preview-grid-cards" id="preview-grid-cards">
+              <!-- Dynamically populated via app.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ----------------------------------------------------------------
+             EDUCATION & INTELLECTUAL BACKGROUND
+             ---------------------------------------------------------------- -->
+        <div class="education-section-block">
+          <div class="section-label">
+            <span>// EDUCATION &amp; MENTORSHIP BACKGROUND</span>
+          </div>
+
+          <div class="education-grid">
+            <div class="edu-card">
+              <div class="edu-period">UNDERWORLD TUTELAGE • AGES 14 - 18</div>
+              <h3 class="edu-title">Strategic Syndicate Doctrines</h3>
+              <div class="edu-institution">Mentorship under Mori Ougai (Port Mafia Boss)</div>
+              <p class="edu-desc">
+                Rigorous training in tactical asymmetric warfare, human psychology manipulation, geopolitical infiltration, and defensive counter-intelligence.
+              </p>
+            </div>
+
+            <div class="edu-card">
+              <div class="edu-period">GOVERNMENT CLEARANCE • AGES 18 - 20</div>
+              <h3 class="edu-title">Legal Identity Purification</h3>
+              <div class="edu-institution">Ministry of Internal Affairs &amp; Special Ability Dept.</div>
+              <p class="edu-desc">
+                Two-year hiatus under the guidance of Chief Taneda to scrub criminal records and prepare for civilian agency deployment in accordance with Odasaku's dying wish.
+              </p>
+            </div>
+
+            <div class="edu-card">
+              <div class="edu-period">FIELD CERTIFICATION • AGES 20 - PRESENT</div>
+              <h3 class="edu-title">Armed Agency Detective License</h3>
+              <div class="edu-institution">Yokohama Armed Detective Agency HQ</div>
+              <p class="edu-desc">
+                Official accreditation for civilian rescue, supernatural crisis arbitration, and mentorship of rising ability users (Nakajima Atsushi).
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </main>
+
+    <!-- ====================================================================
+         LOWER SECTIONS: Work Experience & Major Incident Case Files (Projects)
+         ==================================================================== -->
+
+    <!-- Section: Work Experience Timeline -->
+    <section class="section-spacer">
+      <div class="section-header-block">
+        <div class="section-label">// CHRONICLES OF SERVICE</div>
+        <h2 class="section-title">Work Experience &amp; Career History</h2>
+      </div>
+
+      <div class="timeline-container">
+
+        <!-- Role 1 -->
+        <div class="timeline-item">
+          <div class="timeline-node"><div class="timeline-node-inner"></div></div>
+          <div class="timeline-card">
+            <div class="timeline-role-row">
+              <h3 class="timeline-role">Senior Field Investigator &amp; Master Strategist</h3>
+              <span class="timeline-badge">2021 — PRESENT • CURRENT</span>
+            </div>
+            <div class="timeline-org">Armed Detective Agency (武装探偵社)</div>
+            <p class="timeline-body">
+              Responsible for high-priority crisis resolution, supernatural crime investigation, and inter-organizational diplomacy in Yokohama. Mentored Atsushi Nakajima in harnessing the Beast Beneath the Moonlight and executed counter-strategies against foreign syndicates.
+            </p>
+            <div class="timeline-highlights">
+              <span class="pill-tag">Threat Neutralization</span>
+              <span class="pill-tag">Cross-Faction Coordination</span>
+              <span class="pill-tag">Ability Nullification</span>
+              <span class="pill-tag">Yokohama Defense</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Role 2 -->
+        <div class="timeline-item">
+          <div class="timeline-node"><div class="timeline-node-inner"></div></div>
+          <div class="timeline-card">
+            <div class="timeline-role-row">
+              <h3 class="timeline-role">Underground Operative &amp; Independent Analyst</h3>
+              <span class="timeline-badge">2-YEAR HIATUS</span>
+            </div>
+            <div class="timeline-org">Special Operations Department (Ministry of Justice Liaison)</div>
+            <p class="timeline-body">
+              Vanished into the underground after the Mimic catastrophe. Preserved crucial intelligence channels, assisted government watchdogs in monitoring rogue ability organizations, and prepared for entry into public service.
+            </p>
+            <div class="timeline-highlights">
+              <span class="pill-tag">Deep Cover</span>
+              <span class="pill-tag">Intelligence Gathering</span>
+              <span class="pill-tag">Information Brokerage</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Role 3 -->
+        <div class="timeline-item">
+          <div class="timeline-node"><div class="timeline-node-inner"></div></div>
+          <div class="timeline-card">
+            <div class="timeline-role-row">
+              <h3 class="timeline-role">Executive of the Port Mafia (Youngest in History)</h3>
+              <span class="timeline-badge">AGE 14 — 18 • DARK ERA</span>
+            </div>
+            <div class="timeline-org">Port Mafia High Command</div>
+            <p class="timeline-body">
+              Commanded half of the Mafia's capital operations and strategic strike teams alongside partner Chuya Nakahara ("Twin Dark" / Soukoku). Led interrogation divisions with a 100% confession rate without ever sustaining a single serious failure.
+            </p>
+            <div class="timeline-highlights">
+              <span class="pill-tag">Twin Dark (双黒)</span>
+              <span class="pill-tag">Interrogation Command</span>
+              <span class="pill-tag">Tactical Supremacy</span>
+              <span class="pill-tag">Bar Lupin Brotherhood</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section: Major Projects & Incident Case Files -->
+    <section class="section-spacer">
+      <div class="section-header-block">
+        <div class="section-label">// OPERATIONAL CASE FILES</div>
+        <h2 class="section-title">Major Operations &amp; Projects</h2>
+      </div>
+
+      <div class="projects-grid">
+
+        <!-- Case 1 -->
+        <div class="project-card">
+          <div>
+            <div class="project-code">INCIDENT FILE #01 • YOKOHAMA THREAT</div>
+            <h3 class="project-title">The Azure Messenger Bombing</h3>
+            <p class="project-desc">
+              Uncovered a multi-stage conspiracy to frame the Armed Detective Agency through orchestrated train bombings and high-stakes hostages, predicting the culprit's motive and safeguarding civic peace.
+            </p>
+          </div>
+          <div class="project-footer">
+            <span class="case-status">✓ RESOLVED • AGENCY VINDICATED</span>
+            <span class="pill-tag">Deduction</span>
+          </div>
+        </div>
+
+        <!-- Case 2 -->
+        <div class="project-card">
+          <div>
+            <div class="project-code">INCIDENT FILE #02 • THREE-WAY WAR</div>
+            <h3 class="project-title">The Guild &amp; Moby Dick Descent</h3>
+            <p class="project-desc">
+              Formulated the joint contingency plan between the Agency and the Port Mafia. Re-formed the legendary "Twin Dark" to breach the enemy stronghold and safely crash-landed the airborne fortress Moby Dick away from the metropolis.
+            </p>
+          </div>
+          <div class="project-footer">
+            <span class="case-status">✓ CITY SAVED • STRATEGIC VICTORY</span>
+            <span class="pill-tag">Soukoku</span>
+          </div>
+        </div>
+
+        <!-- Case 3 -->
+        <div class="project-card">
+          <div>
+            <div class="project-code">INCIDENT FILE #03 • DRAGON HEAD REDUX</div>
+            <h3 class="project-title">Dead Apple: Shibusawa's Mist</h3>
+            <p class="project-desc">
+              Infiltrated Tatsuhiko Shibusawa's fortress during the ability-separating mist crisis. Counter-neutralized a world-threatening singularity from within through tactical sacrifice and ability cancellation.
+            </p>
+          </div>
+          <div class="project-footer">
+            <span class="case-status">✓ SINGULARITY CRUSHED</span>
+            <span class="pill-tag">Nullification</span>
+          </div>
+        </div>
+
+        <!-- Case 4 -->
+        <div class="project-card">
+          <div>
+            <div class="project-code">INCIDENT FILE #04 • MEURSAULT GAMBIT</div>
+            <h3 class="project-title">Meursault High-Security Mind Game</h3>
+            <p class="project-desc">
+              Engaged in a transatlantic mental duel with Fyodor Dostoevsky while incarcerated in Meursault Prison. Engineered an impossible escape protocol through coded communication using heartbeat rhythms.
+            </p>
+          </div>
+          <div class="project-footer">
+            <span class="case-status">✓ CHECKMATE EXECUTED</span>
+            <span class="pill-tag">Grandmaster</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section: Tactical Matrix & Combat Stats -->
+    <section class="section-spacer">
+      <div class="section-header-block">
+        <div class="section-label">// TACTICAL CAPABILITIES</div>
+        <h2 class="section-title">Ability &amp; Intelligence Matrix</h2>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-header">
+            <span class="stat-title">Tactical Foresight &amp; Strategy</span>
+            <span class="stat-pct">99%</span>
+          </div>
+          <div class="stat-bar-track">
+            <div class="stat-bar-fill" style="width: 99%;"></div>
+          </div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-header">
+            <span class="stat-title">Ability Nullification (No Longer Human)</span>
+            <span class="stat-pct">100%</span>
+          </div>
+          <div class="stat-bar-track">
+            <div class="stat-bar-fill" style="width: 100%;"></div>
+          </div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-header">
+            <span class="stat-title">Psychological Warfare &amp; Deduction</span>
+            <span class="stat-pct">98%</span>
+          </div>
+          <div class="stat-bar-track">
+            <div class="stat-bar-fill" style="width: 98%;"></div>
+          </div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-header">
+            <span class="stat-title">Charisma &amp; Persuasion</span>
+            <span class="stat-pct">96%</span>
+          </div>
+          <div class="stat-bar-track">
+            <div class="stat-bar-fill" style="width: 96%;"></div>
+          </div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-header">
+            <span class="stat-title">Suicidal Tenacity &amp; Eccentricity</span>
+            <span class="stat-pct">100%</span>
+          </div>
+          <div class="stat-bar-track">
+            <div class="stat-bar-fill" style="width: 100%; background: linear-gradient(90deg, #f43f5e, #fb7185);"></div>
+          </div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-header">
+            <span class="stat-title">Physical Combat &amp; Stamina</span>
+            <span class="stat-pct">74%</span>
+          </div>
+          <div class="stat-bar-track">
+            <div class="stat-bar-fill" style="width: 74%;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border-glass); text-align: center; color: var(--text-dim); font-size: 0.8rem;">
+      <p>✦ Armed Detective Agency • Yokohama Special Ability Records • Inspired by Osamu Dazai &amp; Bungo Stray Dogs ✦</p>
+      <p style="margin-top: 0.5rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-cyan);">
+        "Have a pure, cheerful, and energetic suicide." — Osamu Dazai
+      </p>
+    </footer>
+
+  </div>
+
+  <!-- Application Logic & Cosmos Initialization -->
+  <script src="cosmos.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
