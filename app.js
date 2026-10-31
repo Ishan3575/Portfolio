@@ -11,9 +11,44 @@
   let audioCtx = null;
   let ambientDroneGain = null;
   let previewTimeout = null;
+  let typewriterTimeouts = [];
 
-  // Novel Data Set
-  const NOVEL_DATA = [
+  // User Space & Galaxy Curated Image Collections (from images/)
+  const USER_BLACK_HOLE_IMAGES = [
+    'images/black_hole_1.jpeg',
+    'images/black_hole_2.jpeg',
+    'images/black_hole_3.jpeg',
+    'images/black_hole_4.jpeg',
+    'images/black_hole_5.jpeg'
+  ];
+
+  const USER_GALAXY_IMAGES = [
+    'images/galaxy_1.jpeg',
+    'images/galaxy_2.jpeg',
+    'images/galaxy_3.jpeg',
+    'images/galaxy_4.jpeg',
+    'images/galaxy_5.jpeg',
+    'images/galaxy_6.jpeg',
+    'images/galaxy_7.jpeg',
+    'images/galaxy_8.jpeg'
+  ];
+
+  const USER_SPACE_IMAGES = [
+    'images/space_1.jpeg',
+    'images/space_2.jpeg',
+    'images/space_3.jpeg',
+    'images/space_4.jpeg',
+    'images/space_5.jpeg'
+  ];
+
+  // Helper: Get random items from array
+  function getRandomItems(arr, count) {
+    const shuffled = [...arr].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  }
+
+  // Curated Literature Dataset (with dynamic random novel art & quotes)
+  const NOVEL_DATA_POOL = [
     {
       title: 'No Longer Human',
       kanji: '人間失格',
@@ -45,11 +80,34 @@
       img: 'assets/novel-crime-punishment.svg',
       quote: '“Pain and suffering are always inevitable for a large intelligence and a deep heart.”',
       theme: 'Guilt, Redemption & Rationality'
+    },
+    {
+      title: 'Run, Melos!',
+      kanji: '走れメロス',
+      author: 'Osamu Dazai',
+      img: 'assets/novel-setting-sun.svg',
+      quote: '“True friendship is sworn not in words, but through unbreakable resolve.”',
+      theme: 'Loyalty & Human Faith'
+    },
+    {
+      title: 'The Schoolgirl',
+      kanji: '女生徒',
+      author: 'Osamu Dazai',
+      img: 'assets/novel-no-longer-human.svg',
+      quote: '“Tomorrow will probably be another day like today. Happiness will never come.”',
+      theme: 'Poignant Melancholy & Consciousness'
     }
   ];
 
-  // Anime Fanart & Scene Data Set
-  const ANIME_DATA = [
+  // Curated Dazai Anime Art & Scene Dataset (incorporating your selected Dazai image + arts)
+  const ANIME_DATA_POOL = [
+    {
+      title: 'Osamu Dazai Portrait',
+      sub: 'Official Armed Detective Agency Art',
+      img: 'images/dazai%20fanart.jpg',
+      desc: 'Enigmatic senior strategist gazing across Yokohama.',
+      tag: 'Strategic Enigma'
+    },
     {
       title: 'No Longer Human (人間失格)',
       sub: 'Ability Nullification',
@@ -66,22 +124,23 @@
     },
     {
       title: 'Yokohama Twilight Harbor',
-      sub: 'Armed Detective Agency HQ',
+      sub: 'Agency HQ Rooftop',
       img: 'assets/dazai-fanart-3.svg',
       desc: 'Watching over the city after preventing the fall of the Moby Dick.',
       tag: 'Guardian of the Harbor'
     },
     {
-      title: 'Osamu Dazai Official Portrait',
-      sub: 'Senior Detective',
-      img: 'assets/dazai-pfp.svg',
-      desc: 'Armed Detective Agency problem solver and underworld chess master.',
-      tag: 'Strategic Enigma'
+      title: 'Double Suicide Reverie',
+      sub: 'River Seine & Tsurumi Stream',
+      img: 'images/dazai%20fanart.jpg',
+      desc: 'Floating peacefully downstream while contemplating life and eternity.',
+      tag: 'Philosophical Musings'
     }
   ];
 
   // Initialize once DOM is ready
   document.addEventListener('DOMContentLoaded', () => {
+    initDynamicCosmicBackgrounds();
     initProfileHoverInteractions();
     initHobbyInteractions();
     initCosmicModeButtons();
@@ -90,38 +149,213 @@
   });
 
   // --------------------------------------------------------------------------
-  // 1. Left Profile Box Pop-Out & Cosmic Zoom Connection
+  // High-Resolution Space Imagery & Dynamic 50+ Randomized Universe Pool
+  // Default permanent background: Ultra-high quality dark deep space
   // --------------------------------------------------------------------------
-  function initProfileProfileTilt() {
-    const card = document.querySelector('.profile-card');
-    if (!card) return;
+  const PERMANENT_DARK_SPACE = 'images/cosmic_deep_dark.jpg';
 
-    let isHovered = false;
+  const SECTION_COSMIC_THEMES = {
+    novel: 'images/cosmic_galaxy_4k.jpg',
+    anime: 'images/cosmic_supernova_4k.jpg',
+    suicide: 'images/cosmic_blackhole_4k.jpg',
+    chess: 'images/cosmic_nebula_4k.jpg',
+    profile: 'images/cosmic_deep_dark.jpg',
+    default: 'images/cosmic_deep_dark.jpg'
+  };
 
-    card.addEventListener('mouseenter', () => {
-      isHovered = true;
-      card.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease';
+  // Grand 50+ High-Resolution Dark Cosmic Library
+  const GRAND_UNIVERSE_POOL = [
+    'images/cosmic_deep_dark.jpg',
+    'images/cosmic_galaxy_4k.jpg',
+    'images/cosmic_nebula_4k.jpg',
+    'images/cosmic_supernova_4k.jpg',
+    'images/cosmic_blackhole_4k.jpg',
+    'images/universe_pool/space_dark_01.jpg',
+    'images/universe_pool/space_dark_02.jpg',
+    'images/universe_pool/space_dark_03.jpg',
+    'images/universe_pool/space_dark_04.jpg',
+    'images/universe_pool/space_dark_05.jpg',
+    'images/universe_pool/space_dark_06.jpg',
+    'images/universe_pool/space_dark_07.jpg',
+    'images/universe_pool/space_dark_08.jpg',
+    'images/universe_pool/space_dark_09.jpg',
+    'images/universe_pool/space_dark_10.jpg',
+    'images/universe_pool/space_dark_11.jpg',
+    'images/universe_pool/space_dark_12.jpg',
+    'images/universe_pool/space_dark_13.jpg',
+    'images/universe_pool/space_dark_14.jpg',
+    'images/universe_pool/space_dark_15.jpg',
+    'images/universe_pool/space_dark_16.jpg',
+    'images/universe_pool/space_dark_17.jpg',
+    'images/universe_pool/space_dark_19.jpg',
+    'images/universe_pool/space_dark_20.jpg',
+    'images/universe_pool/space_dark_21.jpg',
+    'images/universe_pool/space_dark_22.jpg',
+    'images/universe_pool/space_dark_23.jpg',
+    'images/universe_pool/space_dark_24.jpg',
+    'images/universe_pool/space_dark_25.jpg',
+    'images/universe_pool/space_dark_26.jpg',
+    'images/universe_pool/space_dark_27.jpg',
+    'images/universe_pool/space_dark_28.jpg',
+    'images/universe_pool/space_dark_29.jpg',
+    'images/universe_pool/space_dark_30.jpg',
+    'images/black_hole_1.jpeg',
+    'images/black_hole_2.jpeg',
+    'images/black_hole_3.jpeg',
+    'images/black_hole_4.jpeg',
+    'images/black_hole_5.jpeg',
+    'images/galaxy_1.jpeg',
+    'images/galaxy_2.jpeg',
+    'images/galaxy_3.jpeg',
+    'images/galaxy_4.jpeg',
+    'images/galaxy_5.jpeg',
+    'images/galaxy_6.jpeg',
+    'images/galaxy_7.jpeg',
+    'images/galaxy_8.jpeg',
+    'images/space_1.jpeg',
+    'images/space_2.jpeg',
+    'images/space_3.jpeg',
+    'images/space_4.jpeg',
+    'images/space_5.jpeg'
+  ];
+
+  // Shuffled randomized queue to prevent consecutive repeats
+  let shuffledBackgroundSequence = [];
+  let shuffleSequencePointer = 0;
+
+  function getNextRandomizedUniverseImage() {
+    if (shuffledBackgroundSequence.length === 0 || shuffleSequencePointer >= shuffledBackgroundSequence.length) {
+      shuffledBackgroundSequence = [...GRAND_UNIVERSE_POOL].sort(() => Math.random() - 0.5);
+      shuffleSequencePointer = 0;
+    }
+    const selected = shuffledBackgroundSequence[shuffleSequencePointer];
+    shuffleSequencePointer++;
+    return selected;
+  }
+
+  let activeSlide = 'a';
+
+  function initDynamicCosmicBackgrounds() {
+    const slideA = document.querySelector('.cosmic-bg-slide.slide-a');
+    const slideB = document.querySelector('.cosmic-bg-slide.slide-b');
+    if (!slideA || !slideB) return;
+
+    // Set permanent high-resolution deep space dark image by default
+    slideA.style.backgroundImage = `url("${PERMANENT_DARK_SPACE}")`;
+    slideA.classList.add('active');
+
+    // Subtle automatic slow rotation between random images every 16 seconds
+    setInterval(() => {
+      const nextRandomCosmos = getNextRandomizedUniverseImage();
+      rotateCosmicBackground(nextRandomCosmos);
+    }, 16000);
+  }
+
+  function rotateCosmicBackground(specificImg = null) {
+    const slideA = document.querySelector('.cosmic-bg-slide.slide-a');
+    const slideB = document.querySelector('.cosmic-bg-slide.slide-b');
+    if (!slideA || !slideB) return;
+
+    const nextImg = specificImg || getNextRandomizedUniverseImage();
+
+    if (activeSlide === 'a') {
+      slideB.style.backgroundImage = `url("${nextImg}")`;
+      slideB.classList.add('active');
+      slideA.classList.remove('active');
+      activeSlide = 'b';
+    } else {
+      slideA.style.backgroundImage = `url("${nextImg}")`;
+      slideA.classList.add('active');
+      slideB.classList.remove('active');
+      activeSlide = 'a';
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // Procedural Web Audio API: Typewriter Key Clack Sound Synthesizer
+  // Creates an authentic mechanical typewriter keystroke clack with subtle variation
+  // --------------------------------------------------------------------------
+  function playTypewriterKeyClick() {
+    try {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      const now = audioCtx.currentTime;
+
+      // Realistic mechanical key-clack: short burst of filtered noise + rapid acoustic click
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const filter = audioCtx.createBiquadFilter();
+
+      // Slightly randomize frequency to mimic different mechanical key heights
+      const baseFreq = 1600 + Math.random() * 800;
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(baseFreq, now);
+      osc.frequency.exponentialRampToValueAtTime(120, now + 0.04);
+
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(2200, now);
+      filter.Q.setValueAtTime(3.0, now);
+
+      gain.gain.setValueAtTime(0.045, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.05);
+    } catch (e) {
+      // Audio permission graceful fallback
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // 1. Left Profile Box Pop-Out & Typewriter Effect on Hover
+  // --------------------------------------------------------------------------
+  function triggerTypewriterEffect() {
+    clearTypewriterEffect();
+    const typeElements = document.querySelectorAll('.type-field');
+
+    typeElements.forEach(el => {
+      const fullText = el.getAttribute('data-type-text') || el.innerText;
+      el.innerHTML = '<span class="typing-cursor"></span>';
+      let currentIdx = 0;
+
+      const typeChar = () => {
+        if (currentIdx <= fullText.length) {
+          el.innerHTML = fullText.slice(0, currentIdx) + '<span class="typing-cursor"></span>';
+          
+          // Play mechanical typewriter click sound on each typed letter
+          if (currentIdx > 0 && currentIdx % 2 === 0) {
+            playTypewriterKeyClick();
+          }
+
+          currentIdx++;
+          const timeout = setTimeout(typeChar, 20 + Math.random() * 22);
+          typewriterTimeouts.push(timeout);
+        } else {
+          el.innerHTML = fullText;
+        }
+      };
+
+      const delayTimeout = setTimeout(typeChar, 70 + Math.random() * 90);
+      typewriterTimeouts.push(delayTimeout);
     });
+  }
 
-    card.addEventListener('mousemove', (e) => {
-      if (!isHovered) return;
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-
-      const rotateX = ((y - centerY) / centerY) * -9;
-      const rotateY = ((x - centerX) / centerX) * 9;
-
-      card.style.transition = 'transform 0.08s ease-out, box-shadow 0.2s ease';
-      card.style.transform = `scale(1.48) translateY(-6px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-      isHovered = false;
-      card.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease';
-      card.style.transform = '';
+  function clearTypewriterEffect() {
+    typewriterTimeouts.forEach(t => clearTimeout(t));
+    typewriterTimeouts = [];
+    const typeElements = document.querySelectorAll('.type-field');
+    typeElements.forEach(el => {
+      const fullText = el.getAttribute('data-type-text');
+      if (fullText) el.innerText = fullText;
     });
   }
 
@@ -130,15 +364,18 @@
     const profileCard = document.querySelector('.profile-card');
     if (!profileCard) return;
 
-    initProfileProfileTilt();
-
-    // Hover triggers: Pop out 1.5X + Zoom into Galaxy Core / Alternating Cosmic Shift!
+    // Hover triggers: horizontal landscape expansion + typewriter reveal + cosmic zoom & shift!
     profileCard.addEventListener('mouseenter', () => {
       profileHoverCount++;
+      triggerTypewriterEffect();
+
+      // Trigger profile cosmic background change
+      rotateCosmicBackground(SECTION_COSMIC_THEMES.profile);
+
       if (window.cosmosEngine) {
         window.cosmosEngine.zoomIn(180);
 
-        // Every few hovers, morph cosmic background into different phenomena!
+        // Morph cosmic background seamlessly through universe anomalies!
         const phenomena = ['galaxy', 'blackhole', 'supernova', 'nebula'];
         const selected = phenomena[profileHoverCount % phenomena.length];
         window.cosmosEngine.setMode(selected);
@@ -147,6 +384,8 @@
     });
 
     profileCard.addEventListener('mouseleave', () => {
+      clearTypewriterEffect();
+      rotateCosmicBackground(PERMANENT_DARK_SPACE);
       if (window.cosmosEngine) {
         window.cosmosEngine.zoomOut();
       }
@@ -154,7 +393,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 2. Interactive Hobbies & Dynamic Hologram Popups
+  // 2. Interactive Hobbies & Dynamic Random Space Hologram Popups
   // --------------------------------------------------------------------------
   function initHobbyInteractions() {
     const hobbyCards = document.querySelectorAll('.hobby-card');
@@ -172,6 +411,7 @@
         clearTimeout(previewTimeout);
 
         if (type === 'novel') {
+          rotateCosmicBackground(SECTION_COSMIC_THEMES.novel);
           renderNovelPreview(dockTitle, dockSub, cardsGrid);
           previewDock.classList.add('visible');
           if (window.cosmosEngine) {
@@ -180,6 +420,7 @@
           }
           playChimeSound(523.25); // C5
         } else if (type === 'anime') {
+          rotateCosmicBackground(SECTION_COSMIC_THEMES.anime);
           renderAnimePreview(dockTitle, dockSub, cardsGrid);
           previewDock.classList.add('visible');
           if (window.cosmosEngine) {
@@ -188,12 +429,18 @@
           }
           playChimeSound(587.33); // D5
         } else if (type === 'suicide') {
+          rotateCosmicBackground(SECTION_COSMIC_THEMES.suicide);
+          renderSuicidePhilosophyPreview(dockTitle, dockSub, cardsGrid);
+          previewDock.classList.add('visible');
           if (window.cosmosEngine) {
             window.cosmosEngine.zoomIn(220);
             window.cosmosEngine.setMode('blackhole');
           }
           playChimeSound(392.00); // G4
         } else if (type === 'chess') {
+          rotateCosmicBackground(SECTION_COSMIC_THEMES.chess);
+          renderChessDeductionPreview(dockTitle, dockSub, cardsGrid);
+          previewDock.classList.add('visible');
           if (window.cosmosEngine) {
             window.cosmosEngine.zoomIn(280);
             window.cosmosEngine.setMode('nebula');
@@ -205,6 +452,7 @@
       card.addEventListener('mouseleave', () => {
         previewTimeout = setTimeout(() => {
           previewDock.classList.remove('visible');
+          rotateCosmicBackground(PERMANENT_DARK_SPACE);
           if (window.cosmosEngine) {
             window.cosmosEngine.zoomOut();
           }
@@ -227,11 +475,14 @@
     });
   }
 
+  // 1. Novel Literature Preview (Randomized each hover)
   function renderNovelPreview(titleElem, subElem, gridElem) {
     titleElem.innerHTML = `📚 Famous Literature &amp; Influences`;
     subElem.innerText = `OSAMU DAZAI • RYUNOSUKE AKUTAGAWA • FYODOR DOSTOEVSKY`;
     
-    gridElem.innerHTML = NOVEL_DATA.map(novel => `
+    const randomNovels = getRandomItems(NOVEL_DATA_POOL, 4);
+
+    gridElem.innerHTML = randomNovels.map(novel => `
       <div class="preview-art-card">
         <div class="preview-art-img-wrap">
           <img src="${novel.img}" alt="${novel.title}" loading="lazy">
@@ -247,11 +498,14 @@
     `).join('');
   }
 
+  // 2. Anime & Dazai Fanart Preview (Randomized each hover with your Dazai artwork)
   function renderAnimePreview(titleElem, subElem, gridElem) {
     titleElem.innerHTML = `✨ Bungo Stray Dogs &amp; Dazai Fanart Archive`;
     subElem.innerText = `OFFICIAL ART • ABILITY RENDER • YOKOHAMA CHRONICLES`;
 
-    gridElem.innerHTML = ANIME_DATA.map(item => `
+    const randomAnime = getRandomItems(ANIME_DATA_POOL, 4);
+
+    gridElem.innerHTML = randomAnime.map(item => `
       <div class="preview-art-card">
         <div class="preview-art-img-wrap">
           <img src="${item.img}" alt="${item.title}" loading="lazy">
@@ -263,6 +517,90 @@
             ${item.desc}
           </div>
         </div>
+      </div>
+    `).join('');
+  }
+
+  // 3. Suicide Philosophy Info Dossier (Data & Lore instead of generic images)
+  function renderSuicidePhilosophyPreview(titleElem, subElem, gridElem) {
+    titleElem.innerHTML = `🌊 Suicide Philosophy • Dossier &amp; Lore`;
+    subElem.innerText = `OSAMU DAZAI • THE SEARCH FOR A POETIC DEPARTURE`;
+
+    const suicideData = [
+      {
+        badge: 'Core Ideology',
+        title: 'The Guide to Suicide',
+        desc: 'Relentlessly researching the iconic red-covered handbook for painless and poetic ways to exit existence.',
+        meta: 'Favorite Reading Material'
+      },
+      {
+        badge: 'Prerequisite',
+        title: 'Lover’s Double Suicide',
+        desc: 'Adamantly refusing single suicide: “A double suicide is impossible alone! It must be with an alluring partner.”',
+        meta: 'Shinjuu (心中) Custom'
+      },
+      {
+        badge: 'Underlying Pain',
+        title: 'Existential Emptiness',
+        desc: 'A profound psychological alienation from mankind: feeling too deeply the suffering and hypocrisy of mortals.',
+        meta: 'No Longer Human Core'
+      },
+      {
+        badge: 'Paradox of Life',
+        title: 'Survival Instinct',
+        desc: 'Despite eccentric suicidal attempts, constantly saving allies and orchestrating brilliant survival masterplans.',
+        meta: 'Armed Agency Guardian'
+      }
+    ];
+
+    gridElem.innerHTML = suicideData.map(item => `
+      <div class="feature-info-card">
+        <div class="feature-info-badge">${item.badge}</div>
+        <div class="feature-info-title">${item.title}</div>
+        <div class="feature-info-desc">${item.desc}</div>
+        <div class="feature-info-meta">${item.meta}</div>
+      </div>
+    `).join('');
+  }
+
+  // 4. Tactical Chess & Grandmaster Deduction (Data & Lore instead of generic images)
+  function renderChessDeductionPreview(titleElem, subElem, gridElem) {
+    titleElem.innerHTML = `♟️ Tactical Chess &amp; Strategic Supremacy`;
+    subElem.innerText = `YOKOHAMA STRATEGIC DOSSIER • MIND GAMES &amp; DEDUCTION`;
+
+    const chessData = [
+      {
+        badge: 'Grandmaster Foresight',
+        title: '50 Moves Ahead',
+        desc: 'Anticipates opponent moves weeks in advance, engineering traps that adversaries walk into voluntarily.',
+        meta: 'Predicted Guild War Outcome'
+      },
+      {
+        badge: 'Meursault Mental Duel',
+        title: 'Heartbeat Cryptography',
+        desc: 'Communicated across maximum-security isolation cells with Ango using coded pulse rhythms to defeat Fyodor.',
+        meta: 'Vs. Fyodor Dostoevsky'
+      },
+      {
+        badge: 'Dual Alignment',
+        title: 'Tripartite Strategy',
+        desc: 'Masterminded the secret alliance between the Special Ability Division, Armed Agency, and Port Mafia.',
+        meta: 'Yokohama Tripartite Pact'
+      },
+      {
+        badge: 'Human Chess Pieces',
+        title: 'Mentorship & Synergy',
+        desc: 'Unleashed the legendary Soukoku (Double Black) with Chuya and shaped the New Soukoku (Atsushi & Akutagawa).',
+        meta: 'Twin Dark Architecture'
+      }
+    ];
+
+    gridElem.innerHTML = chessData.map(item => `
+      <div class="feature-info-card">
+        <div class="feature-info-badge">${item.badge}</div>
+        <div class="feature-info-title">${item.title}</div>
+        <div class="feature-info-desc">${item.desc}</div>
+        <div class="feature-info-meta">${item.meta}</div>
       </div>
     `).join('');
   }

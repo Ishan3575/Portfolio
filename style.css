@@ -50,7 +50,7 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   Canvas 3D Cosmos Background (Fixed Fullscreen)
+   Canvas 3D Cosmos & Cinematic Moving Image Background (Fixed Fullscreen)
    -------------------------------------------------------------------------- */
 #cosmos-canvas-container {
   position: fixed;
@@ -63,8 +63,8 @@ body {
   overflow: hidden;
 }
 
-/* Cosmic Gradient Vignette */
-.cosmos-overlay-vignette {
+/* Layer 2: Seamless Crossfading & Drifting Deep Universe Backdrop */
+.cosmic-image-backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -72,15 +72,62 @@ body {
   height: 100vh;
   z-index: 1;
   pointer-events: none;
-  background: radial-gradient(circle at 50% 50%, rgba(4, 6, 12, 0.15) 0%, rgba(4, 6, 12, 0.75) 75%, rgba(4, 6, 12, 0.95) 100%);
+  overflow: hidden;
+  background-color: #020306;
 }
+
+.cosmic-bg-slide {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  filter: brightness(0.68) saturate(1.15) contrast(1.1);
+  transition: opacity 2.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+  animation: cosmicDrift 32s ease-in-out infinite alternate;
+}
+
+.cosmic-bg-slide.active {
+  opacity: 0.72;
+}
+
+/* Cosmic continuous gentle drift & zoom motion */
+@keyframes cosmicDrift {
+  0% {
+    transform: scale(1.0) translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.08) translate(-2.5%, 1.8%) rotate(1deg);
+  }
+  100% {
+    transform: scale(1.04) translate(2%, -2%) rotate(-0.8deg);
+  }
+}
+
+/* Cosmic Gradient Vignette: Keeps center clean and edge softly shaded */
+.cosmos-overlay-vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(4, 6, 12, 0.2) 0%, rgba(4, 6, 12, 0.5) 60%, rgba(4, 6, 12, 0.88) 100%);
+}
+
 
 /* --------------------------------------------------------------------------
    Main Layout & Container
    -------------------------------------------------------------------------- */
 .app-wrapper {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   width: 100%;
   max-width: 1380px;
   margin: 0 auto;
@@ -217,16 +264,64 @@ body {
 }
 
 /* --------------------------------------------------------------------------
+   Aesthetic Left-to-Right Reveal Animation on Page Load
+   -------------------------------------------------------------------------- */
+.reveal-text {
+  position: relative;
+  display: inline-block;
+  opacity: 0;
+  transform: translateX(-18px);
+  animation: revealFromLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes revealFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-24px);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+/* Staggered load delays */
+.delay-1 { animation-delay: 0.15s; }
+.delay-2 { animation-delay: 0.35s; }
+.delay-3 { animation-delay: 0.55s; }
+.delay-4 { animation-delay: 0.75s; }
+.delay-5 { animation-delay: 0.95s; }
+
+/* Typewriter Cursor Indicator for Hover */
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background-color: var(--accent-cyan);
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: cursorBlink 0.7s infinite;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* --------------------------------------------------------------------------
    THE POP-OUT PROFILE CARD (Left Side)
-   Default: Compact & Aesthetic. On Hover: Pops out 1.5X, triggers cosmic zoom!
+   Default: Compact & Aesthetic (380px wide).
+   On Hover: Expands 1.38X more (~720px wide) into an ultra-wide cinematic HUD!
+   All profile details remain crystal clear without clipping or losing layout.
    -------------------------------------------------------------------------- */
 .profile-card-wrapper {
   position: sticky;
   top: 2rem;
   z-index: 30;
-  width: 360px;
-  height: 520px;
-  perspective: 1000px;
+  width: 380px;
+  min-height: 540px;
   transition: z-index 0.3s;
 }
 
@@ -238,30 +333,33 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 380px;
   background: var(--bg-card);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border-glass);
-  border-radius: 24px;
-  padding: 1.75rem;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  border-radius: 26px;
+  padding: 1.85rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
   transform-origin: top left;
-  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-              box-shadow 0.45s ease,
-              border-color 0.45s ease,
-              background-color 0.45s ease;
+  transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              padding 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s ease,
+              border-color 0.4s ease,
+              background-color 0.4s ease;
   cursor: pointer;
   user-select: none;
+  overflow: visible;
 }
 
-/* THE 1.5X HOVER POPOUT EFFECT */
+/* ENLARGED: Expands 1.38X more horizontally to 720px width - zero twitching */
+.profile-card-wrapper:hover .profile-card,
 .profile-card:hover {
-  transform: scale(1.48) translateY(-6px);
-  z-index: 100;
+  width: 720px;
+  padding: 2.2rem 2.8rem;
   background: var(--bg-card-hover);
   border-color: var(--border-neon-cyan);
-  box-shadow: var(--shadow-popout);
+  box-shadow: 0 35px 95px -10px rgba(0, 0, 0, 0.95), 0 0 55px rgba(56, 189, 248, 0.45);
 }
 
 .profile-header {
@@ -270,14 +368,19 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
+  transition: all 0.35s ease;
 }
 
+/* Profile image container keeps exact fixed proportions */
 .avatar-container {
   position: relative;
-  width: 130px;
-  height: 130px;
-  margin-bottom: 1rem;
+  width: 120px;
+  height: 120px;
+  min-width: 120px;
+  min-height: 120px;
+  margin-bottom: 0.9rem;
+  flex-shrink: 0;
 }
 
 .avatar-halo-ring {
@@ -299,9 +402,29 @@ body {
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.45);
   background: #090d16;
+  transition: transform 0.3s ease;
+}
+
+/* Metadata Grid inside Profile Box */
+.profile-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--border-glass);
+  border-bottom: 1px solid var(--border-glass);
+  transition: all 0.3s ease;
+}
+
+/* Expanded layout adjusts meta-grid spacing comfortably */
+.profile-card:hover .profile-meta-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+  padding: 1rem 0;
 }
 
 .status-badge {
@@ -578,13 +701,13 @@ body {
   left: 0;
   right: 0;
   z-index: 80;
-  background: rgba(8, 12, 22, 0.88);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: rgba(10, 15, 28, 0.94);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
   border: 1px solid var(--border-neon-cyan);
   border-radius: 20px;
-  padding: 1.5rem;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.25);
+  padding: 1.6rem;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(56, 189, 248, 0.3);
   opacity: 0;
   visibility: hidden;
   transform: translateY(12px);
@@ -627,6 +750,56 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.2rem;
+}
+
+/* Feature Dossier cards for Chess, Suicide Philosophy, etc. */
+.feature-info-card {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid var(--border-glass);
+  border-radius: 14px;
+  padding: 1.25rem 1rem;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-info-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-cyan);
+  background: rgba(22, 34, 60, 0.95);
+  box-shadow: 0 10px 25px rgba(56, 189, 248, 0.25);
+}
+
+.feature-info-badge {
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.feature-info-title {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.feature-info-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: 0.75rem;
+  flex-grow: 1;
+}
+
+.feature-info-meta {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: var(--accent-indigo);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 0.5rem;
 }
 
 .preview-art-card {

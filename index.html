@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
   
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="style.css">
+  <!-- Stylesheet with Cache-Buster -->
+  <link rel="stylesheet" href="style.css?v=2.6">
 
   <!-- Three.js (r128) & GSAP (Local offline vendor scripts with CDN fallback) -->
   <script src="vendor-three.min.js"></script>
@@ -30,9 +30,18 @@
 <body>
 
   <!-- ======================================================================
-       LIVE 3D COSMOS ENGINE (Spinning Galaxies, Supernovas & Black Holes)
+       LIVE 3D COSMOS ENGINE & DYNAMIC MOVING BACKGROUND LAYERS
        ====================================================================== -->
+  <!-- Layer 1: Three.js 3D Interactive Particles & Celestial Bodies -->
   <div id="cosmos-canvas-container"></div>
+  
+  <!-- Layer 2: Moving Deep Space & Galaxy Visual Horizons (Randomized in Motion) -->
+  <div id="cosmic-image-bg-layer" class="cosmic-image-backdrop">
+    <div class="cosmic-bg-slide slide-a active"></div>
+    <div class="cosmic-bg-slide slide-b"></div>
+  </div>
+
+  <!-- Layer 3: Contrast Glass Vignette (Ensures all text & boxes stay crystal clear) -->
   <div class="cosmos-overlay-vignette"></div>
 
   <!-- ======================================================================
@@ -43,22 +52,15 @@
     <!-- Top Navigation Bar -->
     <header class="top-navbar">
       <div class="brand-crest">
-        <div class="crest-icon">太</div>
+        <div class="crest-icon reveal-text delay-1">太</div>
         <div class="brand-info">
-          <h1>Osamu Dazai</h1>
-          <span>ARMED DETECTIVE AGENCY • 武装探偵社</span>
+          <h1 class="reveal-text delay-2">Osamu Dazai</h1>
+          <span class="reveal-text delay-3">ARMED DETECTIVE AGENCY • 武装探偵社</span>
         </div>
       </div>
 
-      <!-- Cosmic Phenomenon Selector -->
+      <!-- Cosmic Controls (Subtle & Clean: audio toggle & ability trigger) -->
       <div class="nav-actions">
-        <div class="cosmic-mode-pill-group" title="Select Universe Background Mode">
-          <button class="cosmic-btn active" data-cosmic-mode="galaxy">🌌 Spiral Galaxy</button>
-          <button class="cosmic-btn" data-cosmic-mode="blackhole">🕳️ Black Hole</button>
-          <button class="cosmic-btn" data-cosmic-mode="supernova">💥 Supernova</button>
-          <button class="cosmic-btn" data-cosmic-mode="nebula">✨ Nebula</button>
-        </div>
-
         <!-- Ambient Sound Synthesizer Toggle -->
         <button id="toggle-audio-btn" class="action-btn" title="Toggle Cosmic Ambient Synthesizer">
           🔇 Cosmos Ambient: OFF
@@ -84,10 +86,10 @@
         <div class="profile-card" id="main-profile-card">
           
           <div class="profile-header">
-            <!-- Glowing Avatar -->
+            <!-- Glowing Avatar with your selected Dazai image -->
             <div class="avatar-container">
               <div class="avatar-halo-ring"></div>
-              <img src="assets/dazai-pfp.svg" alt="Osamu Dazai Profile Art" class="profile-avatar-img">
+              <img src="images/dazai%20fanart.jpg" alt="Osamu Dazai Profile Art" class="profile-avatar-img">
             </div>
 
             <!-- Status Indicator -->
@@ -108,19 +110,19 @@
           <div class="profile-meta-grid">
             <div class="meta-item">
               <span class="meta-label">Age</span>
-              <span class="meta-value highlight-cyan">22 Years</span>
+              <span class="meta-value highlight-cyan type-field" data-type-text="22 Years">22 Years</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">Birthday</span>
-              <span class="meta-value">June 19</span>
+              <span class="meta-value type-field" data-type-text="June 19">June 19</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">Affiliation</span>
-              <span class="meta-value">Armed Detective Agency</span>
+              <span class="meta-value type-field" data-type-text="Armed Detective Agency">Armed Detective Agency</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">Past Rank</span>
-              <span class="meta-value highlight-rose">Port Mafia Executive</span>
+              <span class="meta-value highlight-rose type-field" data-type-text="Port Mafia Executive">Port Mafia Executive</span>
             </div>
           </div>
 
@@ -130,14 +132,10 @@
               <span class="ability-tag">Special Ability</span>
               <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent-cyan);">人間失格</span>
             </div>
-            <div class="ability-name">No Longer Human</div>
-            <p class="ability-desc">
+            <div class="ability-name type-field" data-type-text="No Longer Human">No Longer Human</div>
+            <p class="ability-desc type-field" data-type-text="All-nullifying ability that completely invalidates any other supernatural power upon physical skin contact.">
               All-nullifying ability that completely invalidates any other supernatural power upon physical skin contact.
             </p>
-          </div>
-
-          <div class="card-hint">
-            ✦ Hover to expand 1.5× &amp; warp into cosmic core ✦
           </div>
         </div>
       </aside>
@@ -149,14 +147,14 @@
 
         <!-- Narrative Glass Panel -->
         <article class="bio-glass-panel">
-          <div class="section-label">
+          <div class="section-label reveal-text delay-2">
             <span>// PROFILE OVERVIEW &amp; PHILOSOPHY</span>
           </div>
-          <h2 class="section-title">The Enigmatic Mind of Yokohama</h2>
-          <p class="bio-paragraph">
+          <h2 class="section-title reveal-text delay-3">The Enigmatic Mind of Yokohama</h2>
+          <p class="bio-paragraph reveal-text delay-4">
             Armed with sharp tactical intellect, unwavering composure, and an eccentric obsession with finding a partner for a graceful double suicide, I serve as a senior investigator at the <strong>Armed Detective Agency</strong>. Having once stood as the youngest executive in <strong>Port Mafia</strong> history, I now navigate both the daylight of Yokohama and the shadows beneath it to protect the vulnerable.
           </p>
-          <p class="bio-paragraph">
+          <p class="bio-paragraph reveal-text delay-5">
             <em>"Justice is a weapon. It can be used to cause harm, but it cannot protect or save others."</em> — My life moves to the rhythms of classic literature, high-stakes mind games, and an eternal search for something worth living for.
           </p>
         </article>
@@ -174,43 +172,39 @@
           <div class="hobbies-grid">
 
             <!-- 1. Novel Reading (Triggers Famous Literature Preview) -->
-            <div class="hobby-card" data-hobby-type="novel" title="Hover to view famous literature collection">
+            <div class="hobby-card" data-hobby-type="novel">
               <div class="hobby-icon">📖</div>
               <h3 class="hobby-title">Novel Reading</h3>
               <p class="hobby-subtitle">
                 Devouring literary masterpieces: *No Longer Human*, *The Setting Sun*, Akutagawa, Dostoevsky.
               </p>
-              <span class="hobby-tag-indicator">⚡ Hover for Classic Novels →</span>
             </div>
 
             <!-- 2. Anime & Manga (Triggers Dazai Fanart & Scenes) -->
-            <div class="hobby-card" data-hobby-type="anime" title="Hover to view Dazai fanart and anime moments">
+            <div class="hobby-card" data-hobby-type="anime">
               <div class="hobby-icon">🎭</div>
               <h3 class="hobby-title">Anime &amp; Dazai Fanart</h3>
               <p class="hobby-subtitle">
                 Bungo Stray Dogs chronicles, ability awakening, Dark Era memories at Bar Lupin.
               </p>
-              <span class="hobby-tag-indicator">⚡ Hover for Fanarts &amp; Scenes →</span>
             </div>
 
             <!-- 3. Double Suicide Philosophy -->
-            <div class="hobby-card" data-hobby-type="suicide" title="Hover to warp into the Black Hole">
+            <div class="hobby-card" data-hobby-type="suicide">
               <div class="hobby-icon">🌊</div>
               <h3 class="hobby-title">Suicide Philosophy</h3>
               <p class="hobby-subtitle">
                 Studying *The Complete Guide to Suicide* and seeking an unburdensome, poetic departure with a beautiful lady.
               </p>
-              <span class="hobby-tag-indicator">⚡ Warps to Black Hole →</span>
             </div>
 
             <!-- 4. Strategic Chess & Deduction -->
-            <div class="hobby-card" data-hobby-type="chess" title="Hover to warp into the Stellar Nebula">
+            <div class="hobby-card" data-hobby-type="chess">
               <div class="hobby-icon">♟️</div>
               <h3 class="hobby-title">Tactical Chess</h3>
               <p class="hobby-subtitle">
                 Orchestrating fifty moves ahead against opponents like Fyodor Dostoevsky and Francis Scott Key Fitzgerald.
               </p>
-              <span class="hobby-tag-indicator">⚡ Warps to Nebula →</span>
             </div>
 
           </div>
@@ -502,8 +496,8 @@
 
   </div>
 
-  <!-- Application Logic & Cosmos Initialization -->
-  <script src="cosmos.js"></script>
-  <script src="app.js"></script>
+  <!-- Application Logic & Cosmos Initialization with Cache-Busters -->
+  <script src="cosmos.js?v=2.6"></script>
+  <script src="app.js?v=2.6"></script>
 </body>
 </html>
