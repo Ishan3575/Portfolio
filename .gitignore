@@ -1,0 +1,6 @@
+# Local conversation backups (kept on local drive per protocol, not tracked on remote git)
+antigravity_chat_backups/
+
+# OS metadata
+.DS_Store
+Thumbs.db

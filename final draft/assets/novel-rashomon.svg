@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bookCover3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="60%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+  </defs>
+  <rect width="300" height="450" rx="12" fill="url(#bookCover3)" stroke="#6366f1" stroke-width="2"/>
+  <line x1="24" y1="0" x2="24" y2="450" stroke="#312e81" stroke-width="4"/>
+
+  <!-- Ancient Gate Graphic -->
+  <path d="M 90 200 L 210 200 L 200 250 L 100 250 Z" fill="#312e81" stroke="#818cf8" stroke-width="2"/>
+  <line x1="70" y1="200" x2="230" y2="200" stroke="#a5b4fc" stroke-width="3"/>
+  <line x1="80" y1="188" x2="220" y2="188" stroke="#a5b4fc" stroke-width="4"/>
+
+  <text x="150" y="85" font-family="'Cinzel', serif" font-size="14" fill="#a5b4fc" letter-spacing="3" text-anchor="middle">RYUNOSUKE AKUTAGAWA</text>
+  <text x="150" y="145" font-family="'Cinzel', serif" font-size="34" font-weight="900" fill="#818cf8" text-anchor="middle">羅生門</text>
+  <text x="150" y="290" font-family="'Cinzel', serif" font-size="22" font-weight="bold" fill="#ffffff" letter-spacing="3" text-anchor="middle">RASHOMON</text>
+
+  <text x="150" y="340" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#c7d2fe" text-anchor="middle">"Beyond good and evil under</text>
+  <text x="150" y="360" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#c7d2fe" text-anchor="middle">the torrential Kyoto rain."</text>
+</svg>
